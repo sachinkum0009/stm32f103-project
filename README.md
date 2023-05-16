@@ -5,7 +5,7 @@ STM32F103 Project with STM32 Cube MX and IDE
 ## Todo
 
 - [X] Blink LED
-- [ ] Push Button
+- [X] Push Button
 - [ ] PWM Control
 - [ ] ADC Reading
 - [ ] UART Communication
