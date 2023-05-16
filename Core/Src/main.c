@@ -97,10 +97,20 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 //	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-	  HAL_Delay(500);
-	  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
-	  HAL_Delay(3000);
+
+//	  HAL_Delay(3000);
+	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_5, GPIO_PIN_SET);
+	  GPIO_PinState state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_6);
+	  if (state) {
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
+
+	  }
+	  else {
+		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
+	  }
+	  HAL_Delay(10);
+
+
   }
   /* USER CODE END 3 */
 }
