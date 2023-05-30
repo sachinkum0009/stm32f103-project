@@ -6,7 +6,7 @@ STM32F103 Project with STM32 Cube MX and IDE
 
 - [X] Blink LED
 - [X] Push Button
-- [ ] PWM Control
+- [X] PWM Control
 - [ ] ADC Reading
 - [ ] UART Communication
 - [ ] LCD Display
