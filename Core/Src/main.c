@@ -18,12 +18,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-TIM_HandleTypeDef htim2;
+//TIM_HandleTypeDef htim2;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -86,9 +87,13 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
+  MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-  int32_t CH1_DC = 0;
+//  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+//  int32_t CH1_DC = 0;
+
+  uint16_t readValue;
+  HAL_ADC_Start(&hadc1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -127,6 +132,7 @@ int main(void)
 //	              HAL_Delay(1);
 //	          }
 
+	  /** pwm control
 	  int x;
 	  for (x=0; x<625;x++)
 	  {
@@ -139,6 +145,13 @@ int main(void)
 	  		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, x);
 	  		  HAL_Delay(3);
 	  	  }
+
+	  **/
+
+	  HAL_ADC_PollForConversion(&hadc1, 1000);
+	  readValue = HAL_ADC_GetValue(&hadc1);
+
+
 
 
 
@@ -154,6 +167,7 @@ void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
 
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
@@ -179,7 +193,13 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
+  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
   }
