@@ -64,7 +64,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+//	int32_t CH_DC = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -87,9 +87,8 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   int32_t CH1_DC = 0;
-  HAL_TIMEx_PWMN_Start(htim2, TIM_CHANNEL_1);
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -113,10 +112,33 @@ int main(void)
 //		  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 //	  }
 //	  HAL_Delay(10);
-	  while(CH1_DC < 65535) {
-		  TIM2->CCR1 = CH1_DC;
-		  CH1_DC
+
+
+//	  while(CH1_DC < 65535)
+//	          {
+//	              TIM2->CCR1 = CH1_DC;
+//	              CH1_DC += 70;
+//	              HAL_Delay(1);
+//	          }
+//	          while(CH1_DC > 0)
+//	          {
+//	              TIM2->CCR1 = CH1_DC;
+//	              CH1_DC -= 70;
+//	              HAL_Delay(1);
+//	          }
+
+	  int x;
+	  for (x=0; x<625;x++)
+	  {
+		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, x);
+		  HAL_Delay(3);
 	  }
+
+	  for (x=625; x>0;x--)
+	  	  {
+	  		  __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, x);
+	  		  HAL_Delay(3);
+	  	  }
 
 
 
@@ -142,7 +164,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
