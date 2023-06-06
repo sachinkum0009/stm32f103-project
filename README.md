@@ -9,8 +9,8 @@ STM32F103 Project with STM32 Cube MX and IDE
 - [X] PWM Control
 - [X] ADC Reading
 - [ ] UART Communication
-- [ ] LCD Display
 - [ ] I2C Communication
+- [ ] LCD Display
 - [ ] Motor Control
 - [ ] Temperature and Humidity Monitoring
 - [ ] Wireless Communication
